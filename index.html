@@ -32,10 +32,39 @@
   .menu a {display:block;padding:12px 0;color:#eee;text-decoration:none;font-size:16px;border-bottom:1px solid #333;transition: color 0.3s;}
   .menu a:hover {color:#00e676;}
 
-  .marquee {background:#ff6f00;color:#fff;font-size:15px;font-weight:700;padding:8px 12px;overflow:hidden;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.3);text-align:center;margin:10px;}
-  .marquee span {display:inline-block;white-space:nowrap;animation:scrollText 12s linear infinite;text-shadow:1px 1px 3px rgba(0,0,0,0.5);}
-  @keyframes scrollText {0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+  /* Marquee */
+ .marquee { 
+  background:#ff6f00; 
+  color:#fff; 
+  font-size:15px; 
+  font-weight:700; 
+  padding:8px 12px; 
+  overflow:hidden; 
+  border-radius:8px; 
+  box-shadow:0 4px 8px rgba(0,0,0,0.3); 
+  text-align:center; 
+  margin:10px; 
+  position:relative; 
+}
 
+.marquee .marquee-inner { 
+  display:inline-block; 
+  white-space:nowrap; 
+  animation: scrollText 25s linear infinite; 
+}
+
+.marquee .marquee-inner span { 
+  display:inline-block; 
+  margin-right:100px; 
+  text-shadow:1px 1px 3px rgba(0,0,0,0.5); 
+}
+
+/* Keyframes marquee */
+@keyframes scrollText {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+  /* Slider */
   .slider {position:relative;width:100%;overflow:hidden;margin-top:10px;border-radius:12px;}
   .slider img {width:100%;display:none;border-radius:12px;object-fit:cover;cursor:pointer;transition: opacity 1s ease;}
   .slider img.active {display:block;opacity:1;}
@@ -59,7 +88,7 @@
 <body>
 
 <header>
-  <a href="index.html" class="logoTitle"><img src="logo.png">Mood's Apk</a>
+  <a href="index.html" class="logoTitle"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi4Fskmkekk0iffsSTy4FOp__84K6sbW8QVPlwXJcgcXQnJ3tPnlAaP9yGRuguIx6YU2O-qV-gs7QXQeqnKzoeA9aQzDAc99baMKlUwNhveRBWVSN2-I5lXubUHr8MarBkpcXe7fGF78ycY06l8fyvDbKwYPJGXxmfSlkT6hD_g_o2InWWNDzSq9HPPccFN/s16000/logo.png">Mood's Apk</a>
   <div class="searchBox">
     <input type="text" id="searchInput" placeholder="Search apps...">
     <div id="suggestions" class="suggestions"></div>
@@ -70,18 +99,19 @@
 <div class="menu" id="menu">
   <button class="closeBtn" onclick="toggleMenu()">❌</button>
   <a href="index.html">Home</a>
-  <a href="https://t.me/himus_World">Telegram</a>
-  <a href="games.html">Games</a>
-  <a href="contact.html">Contact</a>
-  <a href="contact.html">Contact</a>
+  <a href="https://t.me/moods_apkbd">Telegram</a>
+  <a href="https://t.me/Pyramixs_bot?start=7662320346">Watch & Earn</a>
+  <a href="https://wa.me/qr/O424SKDM63HFO1">Dm for Promotion </a>
 </div>
 
-<div class="marquee"><span>🚀 Welcome to Mood's APK Store – Download all premium apps free!</span></div>
-
+<div class="marquee">
+  <div class="marquee-inner">
+    <span>👋 Welcome to Mood's APK – Download all premium apps free! ☎️Contact for any promotion Whatsapp: 01776781995</span>
+    <span>👋 Welcome to Mood's APK – Download all premium apps free! ☎️Contact for any promotion Whatsapp: 01776781995</span>
+  </div>
+</div>
 <div class="slider">
   <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhA17lStcEoSKuq0FRAnypsAOEU4-3imrCjYIN2JKHfv9sf4Ynxs1SNUzSYqFyb-tjQUavwpxbeffU3AHgdZZPS5YLiDycVVRAHPC3s0mQC2edo6GmEBCWBsY_6a9bB3Pm3AEVvNNLzSPcuaQ8OKaIw234BfcX9UdLCp8fXkAHgk7INAKGbxsgmDMBwxzeP/s3264/S1.jpg" class="active">
-  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhA17lStcEoSKuq0FRAnypsAOEU4-3imrCjYIN2JKHfv9sf4Ynxs1SNUzSYqFyb-tjQUavwpxbeffU3AHgdZZPS5YLiDycVVRAHPC3s0mQC2edo6GmEBCWBsY_6a9bB3Pm3AEVvNNLzSPcuaQ8OKaIw234BfcX9UdLCp8fXkAHgk7INAKGbxsgmDMBwxzeP/s3264/S1.jpg">
-  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOAJOn6U0bbc0ORToaNzSdntFWsWeF6Y5AvCxDt85vQS1_Li8FT64J4GkBJXEFUGOSWPxGCqN3yjdqKoE1C_J4i7CKjIRC3TqUiP5a60iK5-BeL_o-SxvwzeMe4i4Bpl2fCrGM7YaAP0oVgYRFM6NuZDq01eCVCIitNKN_mcoLBlQZoJRxqbKpGeeXKXhd/s16000/S2.jpg" onclick="window.open('https://t.me/Pyramixs_bot?start=7662320346','_blank')">
   <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOAJOn6U0bbc0ORToaNzSdntFWsWeF6Y5AvCxDt85vQS1_Li8FT64J4GkBJXEFUGOSWPxGCqN3yjdqKoE1C_J4i7CKjIRC3TqUiP5a60iK5-BeL_o-SxvwzeMe4i4Bpl2fCrGM7YaAP0oVgYRFM6NuZDq01eCVCIitNKN_mcoLBlQZoJRxqbKpGeeXKXhd/s16000/S2.jpg" onclick="window.open('https://t.me/Pyramixs_bot?start=7662320346','_blank')">
 </div>
 
@@ -144,7 +174,7 @@ function renderAppList(list){
       <button class="actionBtn" onclick="handleButtonClick(this,'${app.adLink}','${app.download}')">Get Link</button>
     `;
     appList.appendChild(div);
-    setTimeout(()=>div.classList.add("show"), 50); // fade-in animation
+    setTimeout(()=>div.classList.add("show"), 50);
   });
 }
 
