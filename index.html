@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>📱 Mood's Apk</title>
+<style>
+  * {box-sizing:border-box;margin:0;padding:0;}
+  body {font-family:'Segoe UI',sans-serif;background:#121212;color:#eee;display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;transition: background 0.5s;}
+  
+  header {display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;background:#1f1f1f;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
+  .logoTitle {display:flex;align-items:center;gap:6px;color:#00e676;font-size:18px;font-weight:600;text-decoration:none;transition: color 0.3s;}
+  .logoTitle:hover {color:#76ff03;}
+  .logoTitle img {width:26px;height:26px;border-radius:6px;transition: transform 0.3s;}
+  .logoTitle img:hover {transform: rotate(15deg);}
+  
+  .searchBox {flex:1;position:relative;}
+  .searchBox input {width:100%;padding:8px 12px;border-radius:20px;border:none;outline:none;background:#2c2c2c;color:#fff;font-size:14px;transition: box-shadow 0.3s;}
+  .searchBox input:focus {box-shadow:0 0 10px #00e676;}
+  
+  .suggestions {position:absolute;top:100%;left:0;right:0;background:#1e1e1e;border-radius:0 0 10px 10px;max-height:200px;overflow-y:auto;display:none;z-index:15;transition: all 0.3s;}
+  .suggestions div {padding:8px 12px;cursor:pointer;color:#eee;transition: background 0.3s;}
+  .suggestions div:hover {background:#333;}
+  
+  .menuBtn {font-size:22px;cursor:pointer;background:none;border:none;color:#fff;transition: color 0.3s;}
+  .menuBtn:hover {color:#00e676;}
+
+  /* Menu */
+  .menu {position:fixed;top:0;right:-240px;width:240px;height:100%;background:#222;box-shadow:-2px 0 6px rgba(0,0,0,0.5);padding:20px;transition:.3s;z-index:20;display:flex;flex-direction:column;}
+  .menu.active {right:0;}
+  .menu .closeBtn {align-self:flex-end;font-size:22px;cursor:pointer;background:none;border:none;color:#fff;margin-bottom:20px;}
+  .menu a {display:block;padding:12px 0;color:#eee;text-decoration:none;font-size:16px;border-bottom:1px solid #333;transition: color 0.3s;}
+  .menu a:hover {color:#00e676;}
+
+  .marquee {background:#ff6f00;color:#fff;font-size:15px;font-weight:700;padding:8px 12px;overflow:hidden;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.3);text-align:center;margin:10px;}
+  .marquee span {display:inline-block;white-space:nowrap;animation:scrollText 12s linear infinite;text-shadow:1px 1px 3px rgba(0,0,0,0.5);}
+  @keyframes scrollText {0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+
+  .slider {position:relative;width:100%;overflow:hidden;margin-top:10px;border-radius:12px;}
+  .slider img {width:100%;display:none;border-radius:12px;object-fit:cover;cursor:pointer;transition: opacity 1s ease;}
+  .slider img.active {display:block;opacity:1;}
+
+  #appList {flex:1;padding:10px;display:flex;flex-direction:column;gap:10px;transition: all 0.3s ease;}
+  .appCard {display:flex;align-items:center;background:#1e1e1e;border-radius:12px;padding:12px;box-shadow:0 2px 6px rgba(0,0,0,0.6);width:100%;opacity:0;transform: translateY(20px);transition: all 0.5s ease;}
+  .appCard.show {opacity:1;transform: translateY(0);}
+  .appCard img {width:60px;height:60px;border-radius:14px;margin-right:12px;flex-shrink:0;transition: transform 0.3s;}
+  .appCard img:hover {transform: scale(1.1);}
+  .appCard h4 {flex:1;margin:0;font-size:16px;color:#fff;word-break:break-word;}
+  .appCard button {padding:8px 16px;border:none;background:#00c853;color:#fff;border-radius:20px;cursor:pointer;font-size:14px;transition:.3s, transform 0.2s;white-space:nowrap;}
+  .appCard button:hover {background:#00e676;transform: scale(1.05);}
+
+  #backBtn {margin:10px auto;padding:6px 14px;border:none;border-radius:20px;background:#ff6f00;color:#fff;cursor:pointer;display:none;transition: all 0.3s;}
+  #backBtn:hover {background:#ff8f00;}
+
+  footer {background:#1f1f1f;color:#aaa;text-align:center;padding:12px;margin-top:auto;font-size:12px;}
+  footer small {display:block;margin-top:4px;color:#ff6f00;}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logoTitle"><img src="logo.png">Mood's Apk</a>
+  <div class="searchBox">
+    <input type="text" id="searchInput" placeholder="Search apps...">
+    <div id="suggestions" class="suggestions"></div>
+  </div>
+  <button class="menuBtn" onclick="toggleMenu()">☰</button>
+</header>
+
+<div class="menu" id="menu">
+  <button class="closeBtn" onclick="toggleMenu()">❌</button>
+  <a href="index.html">Home</a>
+  <a href="https://t.me/himus_World">Telegram</a>
+  <a href="games.html">Games</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<div class="marquee"><span>🚀 Welcome to Mood's APK Store – Download all premium apps free!</span></div>
+
+<div class="slider">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhA17lStcEoSKuq0FRAnypsAOEU4-3imrCjYIN2JKHfv9sf4Ynxs1SNUzSYqFyb-tjQUavwpxbeffU3AHgdZZPS5YLiDycVVRAHPC3s0mQC2edo6GmEBCWBsY_6a9bB3Pm3AEVvNNLzSPcuaQ8OKaIw234BfcX9UdLCp8fXkAHgk7INAKGbxsgmDMBwxzeP/s3264/S1.jpg" class="active">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhA17lStcEoSKuq0FRAnypsAOEU4-3imrCjYIN2JKHfv9sf4Ynxs1SNUzSYqFyb-tjQUavwpxbeffU3AHgdZZPS5YLiDycVVRAHPC3s0mQC2edo6GmEBCWBsY_6a9bB3Pm3AEVvNNLzSPcuaQ8OKaIw234BfcX9UdLCp8fXkAHgk7INAKGbxsgmDMBwxzeP/s3264/S1.jpg">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOAJOn6U0bbc0ORToaNzSdntFWsWeF6Y5AvCxDt85vQS1_Li8FT64J4GkBJXEFUGOSWPxGCqN3yjdqKoE1C_J4i7CKjIRC3TqUiP5a60iK5-BeL_o-SxvwzeMe4i4Bpl2fCrGM7YaAP0oVgYRFM6NuZDq01eCVCIitNKN_mcoLBlQZoJRxqbKpGeeXKXhd/s16000/S2.jpg" onclick="window.open('https://t.me/Pyramixs_bot?start=7662320346','_blank')">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOAJOn6U0bbc0ORToaNzSdntFWsWeF6Y5AvCxDt85vQS1_Li8FT64J4GkBJXEFUGOSWPxGCqN3yjdqKoE1C_J4i7CKjIRC3TqUiP5a60iK5-BeL_o-SxvwzeMe4i4Bpl2fCrGM7YaAP0oVgYRFM6NuZDq01eCVCIitNKN_mcoLBlQZoJRxqbKpGeeXKXhd/s16000/S2.jpg" onclick="window.open('https://t.me/Pyramixs_bot?start=7662320346','_blank')">
+</div>
+
+<button id="backBtn" onclick="goBack()"> Back to Home</button>
+
+<div id="appList"></div>
+
+<footer>
+  © 2025 Mood's APK Store
+  <small>❤️ by Robiul Islam Rakib</small>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCNP0GL4e20bm-grS6jHnL0b3d2rpAFszo",
+  authDomain: "mood-s-apk.firebaseapp.com",
+  projectId: "mood-s-apk",
+  storageBucket: "mood-s-apk.appspot.com",
+  messagingSenderId: "677810239788",
+  appId: "1:677810239788:web:d156ad0c565a0f673cd489"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let allApps = [];
+let currentApps = [];
+
+async function loadApps() {
+  const appsRef = collection(db, "apps");
+  const snapshot = await getDocs(appsRef);
+  allApps = [];
+  snapshot.forEach(doc => allApps.push(doc.data()));
+
+  if(allApps.length===0){
+    const demoApps = [
+      { name:"Demo App 1", logo:"https://via.placeholder.com/60/ff4444/fff?text=A1", adLink:"https://www.google.com", download:"#"},
+      { name:"Demo App 2", logo:"https://via.placeholder.com/60/44ff44/fff?text=A2", adLink:"https://www.google.com", download:"#"},
+      { name:"Demo App 3", logo:"https://via.placeholder.com/60/4444ff/fff?text=A3", adLink:"https://www.google.com", download:"#"}
+    ];
+    allApps = demoApps;
+  }
+  currentApps = allApps;
+  renderAppList(currentApps);
+}
+
+function renderAppList(list){
+  const appList = document.getElementById("appList");
+  appList.innerHTML = "";
+  document.getElementById("backBtn").style.display = (list!==allApps) ? "block" : "none";
+  list.forEach(app => {
+    let div = document.createElement("div");
+    div.className = "appCard";
+    div.innerHTML = `
+      <img src="${app.logo}">
+      <h4>${app.name}</h4>
+      <button class="actionBtn" onclick="handleButtonClick(this,'${app.adLink}','${app.download}')">Get Link</button>
+    `;
+    appList.appendChild(div);
+    setTimeout(()=>div.classList.add("show"), 50); // fade-in animation
+  });
+}
+
+window.handleButtonClick = (btn, adLink, download) => {
+  if(btn.dataset.state === "download") {
+    window.location.href = download;
+  } else {
+    btn.disabled = true;
+    window.open(adLink, "_blank");
+    setTimeout(()=>{
+      btn.textContent = "Download";
+      btn.dataset.state = "download";
+      btn.disabled = false;
+    }, 2000);
+  }
+};
+
+const searchInput = document.getElementById("searchInput");
+const suggestionsBox = document.getElementById("suggestions");
+
+searchInput.addEventListener("input", ()=>{
+  const query = searchInput.value.toLowerCase();
+  suggestionsBox.innerHTML = "";
+  if(!query){ suggestionsBox.style.display="none"; return; }
+  const results = allApps.filter(app => app.name.toLowerCase().includes(query));
+  if(results.length>0){
+    results.forEach(app=>{
+      const div = document.createElement("div");
+      div.textContent = app.name;
+      div.onclick = ()=>{
+        currentApps = [app];
+        renderAppList(currentApps);
+        suggestionsBox.style.display="none";
+        searchInput.value = app.name;
+      };
+      suggestionsBox.appendChild(div);
+    });
+    suggestionsBox.style.display="block";
+  } else { suggestionsBox.style.display="none"; }
+});
+
+window.goBack = () => {
+  currentApps = allApps;
+  renderAppList(currentApps);
+  searchInput.value = "";
+  suggestionsBox.style.display="none";
+};
+
+// Slider Auto
+let index = 0;
+const slides = document.querySelectorAll(".slider img");
+setInterval(()=>{
+  slides[index].classList.remove("active");
+  index = (index + 1) % slides.length;
+  slides[index].classList.add("active");
+},4000);
+
+window.onload = loadApps;
+window.toggleMenu = () => document.getElementById("menu").classList.toggle("active");
+</script>
+
+</body>
+</html>
