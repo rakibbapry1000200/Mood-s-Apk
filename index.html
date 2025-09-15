@@ -75,7 +75,7 @@
   .appCard img {width:60px;height:60px;border-radius:14px;margin-right:12px;flex-shrink:0;transition: transform 0.3s;}
   .appCard img:hover {transform: scale(1.1);}
   .appCard h4 {flex:1;margin:0;font-size:16px;color:#fff;word-break:break-word;}
-  .appCard button {padding:8px 16px;border:none;background:#00c853;color:#fff;border-radius:20px;cursor:pointer;font-size:14px;transition:.3s, transform 0.2s;white-space:nowrap;}
+  .appCard button {padding:8px 16px;border:none;background:#00c853;color:#fff;border-radius:20px;cursor:pointer;font-size:14px;transition:.3s, transform 0.2s;white-space:nowrap;margin-left:6px;}
   .appCard button:hover {background:#00e676;transform: scale(1.05);}
 
   #backBtn {margin:10px auto;padding:6px 14px;border:none;border-radius:20px;background:#ff6f00;color:#fff;cursor:pointer;display:none;transition: all 0.3s;}
@@ -157,7 +157,16 @@ async function loadApps() {
     ];
     allApps = demoApps;
   }
-  currentApps = allApps;
+  
+  // যদি লিঙ্কে app= থাকে
+  const urlParams = new URLSearchParams(window.location.search);
+  const appName = urlParams.get("app");
+  if(appName){
+    const found = allApps.find(app => app.name === appName);
+    currentApps = found ? [found] : allApps;
+  } else {
+    currentApps = allApps;
+  }
   renderAppList(currentApps);
 }
 
@@ -168,10 +177,12 @@ function renderAppList(list){
   list.forEach(app => {
     let div = document.createElement("div");
     div.className = "appCard";
+    const shareLink = window.location.origin + window.location.pathname + "?app=" + encodeURIComponent(app.name);
     div.innerHTML = `
       <img src="${app.logo}">
       <h4>${app.name}</h4>
-      <button class="actionBtn" onclick="handleButtonClick(this,'${app.adLink}','${app.download}')">Get Link</button>
+      <button onclick="handleButtonClick(this,'${app.adLink}','${app.download}')">Get Link</button>
+      <button onclick="copyShareLink('${shareLink}')">Share</button>
     `;
     appList.appendChild(div);
     setTimeout(()=>div.classList.add("show"), 50);
@@ -190,6 +201,12 @@ window.handleButtonClick = (btn, adLink, download) => {
       btn.disabled = false;
     }, 2000);
   }
+};
+
+window.copyShareLink = (link) => {
+  navigator.clipboard.writeText(link).then(()=>{
+    alert("Share link copied!");
+  });
 };
 
 const searchInput = document.getElementById("searchInput");
