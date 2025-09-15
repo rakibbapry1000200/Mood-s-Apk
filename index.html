@@ -205,9 +205,48 @@ window.handleButtonClick = (btn, adLink, download) => {
 
 window.copyShareLink = (link) => {
   navigator.clipboard.writeText(link).then(()=>{
-    alert("Share link copied!");
+    showCopyNotification("Link copied successfully!");
   });
 };
+
+function showCopyNotification(message) {
+  // যদি notification আগে থাকে তাহলে remove
+  let existing = document.getElementById("copyNotif");
+  if(existing) existing.remove();
+
+  const notif = document.createElement("div");
+  notif.id = "copyNotif";
+  notif.textContent = message;
+  notif.style.position = "fixed";
+  notif.style.bottom = "30px";
+  notif.style.left = "50%";
+  notif.style.transform = "translateX(-50%)";
+  notif.style.background = "#00e676";
+  notif.style.color = "#000";
+  notif.style.padding = "12px 20px";
+  notif.style.borderRadius = "25px";
+  notif.style.boxShadow = "0 4px 10px rgba(0,0,0,0.3)";
+  notif.style.fontWeight = "600";
+  notif.style.fontSize = "14px";
+  notif.style.opacity = "0";
+  notif.style.zIndex = "1000";
+  notif.style.transition = "opacity 0.5s, bottom 0.5s";
+
+  document.body.appendChild(notif);
+
+  // Animate in
+  setTimeout(()=>{
+    notif.style.opacity = "1";
+    notif.style.bottom = "50px";
+  }, 50);
+
+  // Animate out & remove
+  setTimeout(()=>{
+    notif.style.opacity = "0";
+    notif.style.bottom = "30px";
+    setTimeout(()=>notif.remove(), 500);
+  }, 2000);
+}
 
 const searchInput = document.getElementById("searchInput");
 const suggestionsBox = document.getElementById("suggestions");
