@@ -3,17 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>📱 MR » Mods </title>
+<title>MR » Mods </title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
+  
+  :root {
+      --bg: #121212;
+      --card: #1e1e1e;
+      --accent: #00b894; /* Green accent for active elements */
+      --secondary: #6c5ce7; /* Purple for secondary accents */
+      --muted: #a0a0a0;
+      --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      --radius: 12px;
+  }
+
   * {box-sizing:border-box;margin:0;padding:0;}
-  body {font-family:'Segoe UI',sans-serif;background:#121212;color:#eee;display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;transition: background 0.5s;}
+  body {
+      font-family:'Inter', 'Noto Sans Bengali', sans-serif;
+      background:var(--bg);
+      color:#eee;
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+      overflow-x:hidden;
+      transition: background 0.5s;
+      padding-bottom: 70px; /* Increased padding to prevent footer overlap */
+  }
   
-  header {display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;background:#1f1f1f;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
-  .logoTitle {display:flex;align-items:center;gap:6px;color:#00e676;font-size:18px;font-weight:600;text-decoration:none;transition: color 0.3s;}
+  header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px;
+      background:#1f1f1f;
+      position:sticky;
+      top:0;
+      z-index:50;
+      box-shadow:0 2px 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease-in-out; /* Added transition for header hide/show */
+  }
+
+  header.header-hidden {
+      transform: translateY(-100%);
+  }
+
+  .logoTitle {
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:#00e676;
+      font-size:18px;
+      font-weight:600;
+      text-decoration:none;
+      transition: color 0.3s;
+  }
   .logoTitle:hover {color:#76ff03;}
-  .logoTitle img {width:26px;height:26px;border-radius:6px;transition: transform 0.3s;}
-  .logoTitle img:hover {transform: rotate(15deg);}
   
+  /* MR Prompt style Logo */
+  .logo {
+      width: 50px; /* Adjusted size for the new logo style */
+      height: 50px;
+      border-radius: 50%; /* Make it perfectly circular */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      animation: pulse 2s infinite ease-in-out; /* Animation */
+      border: 3px solid var(--accent); /* Border with accent color */
+  }
+  .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+  }
+  @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.4); } /* initial state */
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 184, 148, 0); } /* expanded state */
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 184, 148, 0); } /* back to normal */
+  }
+
   .searchBox {flex:1;position:relative;}
   .searchBox input {width:100%;padding:8px 12px;border-radius:20px;border:none;outline:none;background:#2c2c2c;color:#fff;font-size:14px;transition: box-shadow 0.3s;}
   .searchBox input:focus {box-shadow:0 0 10px #00e676;}
@@ -34,7 +106,7 @@
 
   /* Marquee */
  .marquee { 
-  background:#ff6f00; 
+  background:var(--card); 
   color:#fff; 
   font-size:15px; 
   font-weight:700; 
@@ -81,14 +153,47 @@
   #backBtn {margin:10px auto;padding:6px 14px;border:none;border-radius:20px;background:#ff6f00;color:#fff;cursor:pointer;display:none;transition: all 0.3s;}
   #backBtn:hover {background:#ff8f00;}
 
-  footer {background:#1f1f1f;color:#aaa;text-align:center;padding:12px;margin-top:auto;font-size:12px;}
-  footer small {display:block;margin-top:4px;color:#ff6f00;}
+  /* Footer */
+  footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #111;
+      padding: 14px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.7);
+      z-index: 999;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+  }
+
+  .footer-icon {
+      color: var(--accent); /* Using accent color for consistency */
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 20px;
+      transition: transform 0.3s, color 0.3s;
+  }
+
+  .footer-icon:hover {
+      transform: scale(1.2);
+      color: var(--secondary); /* Secondary accent on hover */
+  }
+
 </style>
 </head>
 <body>
 
-<header>
-  <a href="index.html" class="logoTitle"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjlv9NqWC5ii0tX6BxjMADfR8vnPj3o8R9CiZRy083PPtfRoVI9hQXEEq58Ah96SVC7dQRYnbVFpuTmLwjISMH9Qthrk2WQKgRcQBopzApK3trtW3sGGZbK3zRRLGo8o5EbDD2vmEFB5qgI0KbEwgEftbylFJYYHEwLz62sRqh1rrBQnpuqFb6gEtSEGqUj/s16000/IMG_20250916_195755.jpg">MR » Mods </a>
+<header id="mainHeader">
+  <a href="index.html" class="logoTitle">
+    <div class="logo">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjlv9NqWC5ii0tX6BxjMADfR8vnPj3o8R9CiZRy083PPtfRoVI9hQXEEq58Ah96SVC7dQRYnbVFpuTmLwjISMH9Qthrk2WQKgRcQBopzApK3trtW3sGGZbK3zRRLGo8o5EbDD2vmEFB5qgI0KbEwgEftbylFJYYHEwLz62sRqh1rrBQnpuqFb6gEtSEGqUj/s16000/IMG_20250916_195755.jpg">
+    </div>
+  </a>
   <div class="searchBox">
     <input type="text" id="searchInput" placeholder="Search apps...">
     <div id="suggestions" class="suggestions"></div>
@@ -99,20 +204,19 @@
 <div class="menu" id="menu">
   <button class="closeBtn" onclick="toggleMenu()">❌</button>
   <a href="index.html">Home</a>
-  <a href="https://t.me/moods_apkbd">Telegram</a>
+  <a href="https://t.me/+1FAKRs9CCMQxNzk1">Telegram</a>
   <a href="https://t.me/Pyramixs_bot?start=7662320346">Watch & Earn</a>
-  <a href="https://wa.me/qr/O424SKDM63HFO1">Dm for Promotion </a>
+  <a href="https://wa.me/qr/O424SKDM63HFO1">For paid Promotion </a>
 </div>
 
 <div class="marquee">
   <div class="marquee-inner">
-    <span>👋 Welcome to MR » Mods – Download all premium apps free! ☎️Contact for any promotion Whatsapp: 01776781995</span>
-    <span>👋 Welcome to MR » Mods – Download all premium apps free! ☎️Contact for any promotion Whatsapp: 01776781995</span>
+    <span>👋 Welcome to MR » Mods – Download all premium apps free! ☎️Contact for any paid promotion Whatsapp: 01776781995</span>
+    <span>👋 Welcome to MR » Mods – Download all premium apps free! ☎️Contact for any paid promotion Whatsapp: 01776781995</span>
   </div>
 </div>
 <div class="slider">
   <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhA17lStcEoSKuq0FRAnypsAOEU4-3imrCjYIN2JKHfv9sf4Ynxs1SNUzSYqFyb-tjQUavwpxbeffU3AHgdZZPS5YLiDycVVRAHPC3s0mQC2edo6GmEBCWBsY_6a9bB3Pm3AEVvNNLzSPcuaQ8OKaIw234BfcX9UdLCp8fXkAHgk7INAKGbxsgmDMBwxzeP/s3264/S1.jpg" class="active">
-  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOAJOn6U0bbc0ORToaNzSdntFWsWeF6Y5AvCxDt85vQS1_Li8FT64J4GkBJXEFUGOSWPxGCqN3yjdqKoE1C_J4i7CKjIRC3TqUiP5a60iK5-BeL_o-SxvwzeMe4i4Bpl2fCrGM7YaAP0oVgYRFM6NuZDq01eCVCIitNKN_mcoLBlQZoJRxqbKpGeeXKXhd/s16000/S2.jpg" onclick="window.open('https://t.me/Pyramixs_bot?start=7662320346','_blank')">
 </div>
 
 <button id="backBtn" onclick="goBack()"> Back to Home</button>
@@ -120,13 +224,13 @@
 <div id="appList"></div>
 
 <footer>
-  © 2025 MR » Mods 
-  <small>❤️ by Robiul Islam Rakib</small>
+    <a href="index.html" class="footer-icon"><i class="fa fa-home"></i></a>
+    <a href="https://rakibbapry1000200.github.io/Promte-App/index.html" class="footer-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></a>
 </footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCNP0GL4e20bm-grS6jHnL0b3d2rpAFszo",
@@ -145,20 +249,9 @@ let currentApps = [];
 
 async function loadApps() {
   const appsRef = collection(db, "apps");
-  const snapshot = await getDocs(appsRef);
-  allApps = [];
-  snapshot.forEach(doc => allApps.push(doc.data()));
+  const appsSnap = await getDocs(query(appsRef, orderBy('createdAt', 'desc')));
+  allApps = appsSnap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
-  if(allApps.length===0){
-    const demoApps = [
-      { name:"Demo App 1", logo:"https://via.placeholder.com/60/ff4444/fff?text=A1", adLink:"https://www.google.com", download:"#"},
-      { name:"Demo App 2", logo:"https://via.placeholder.com/60/44ff44/fff?text=A2", adLink:"https://www.google.com", download:"#"},
-      { name:"Demo App 3", logo:"https://via.placeholder.com/60/4444ff/fff?text=A3", adLink:"https://www.google.com", download:"#"}
-    ];
-    allApps = demoApps;
-  }
-  
-  // যদি লিঙ্কে app= থাকে
   const urlParams = new URLSearchParams(window.location.search);
   const appName = urlParams.get("app");
   if(appName){
@@ -173,7 +266,8 @@ async function loadApps() {
 function renderAppList(list){
   const appList = document.getElementById("appList");
   appList.innerHTML = "";
-  document.getElementById("backBtn").style.display = (list!==allApps) ? "block" : "none";
+  // back button logic
+  document.getElementById("backBtn").style.display = (list.length === 1 && allApps.length > 1) ? "block" : "none";
   list.forEach(app => {
     let div = document.createElement("div");
     div.className = "appCard";
@@ -210,7 +304,6 @@ window.copyShareLink = (link) => {
 };
 
 function showCopyNotification(message) {
-  // যদি notification আগে থাকে তাহলে remove
   let existing = document.getElementById("copyNotif");
   if(existing) existing.remove();
 
@@ -234,13 +327,11 @@ function showCopyNotification(message) {
 
   document.body.appendChild(notif);
 
-  // Animate in
   setTimeout(()=>{
     notif.style.opacity = "1";
     notif.style.bottom = "50px";
   }, 50);
 
-  // Animate out & remove
   setTimeout(()=>{
     notif.style.opacity = "0";
     notif.style.bottom = "30px";
@@ -254,7 +345,11 @@ const suggestionsBox = document.getElementById("suggestions");
 searchInput.addEventListener("input", ()=>{
   const query = searchInput.value.toLowerCase();
   suggestionsBox.innerHTML = "";
-  if(!query){ suggestionsBox.style.display="none"; return; }
+  if(!query){ suggestionsBox.style.display="none"; 
+    currentApps = allApps; // Show all apps if search is cleared
+    renderAppList(currentApps);
+    return; 
+  }
   const results = allApps.filter(app => app.name.toLowerCase().includes(query));
   if(results.length>0){
     results.forEach(app=>{
@@ -279,18 +374,35 @@ window.goBack = () => {
   suggestionsBox.style.display="none";
 };
 
-// Slider Auto
+// Slider auto-play
 let index = 0;
 const slides = document.querySelectorAll(".slider img");
-setInterval(()=>{
-  slides[index].classList.remove("active");
-  index = (index + 1) % slides.length;
-  slides[index].classList.add("active");
-},4000);
+if (slides.length > 0) {
+  setInterval(()=>{
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  },4000);
+}
 
 window.onload = loadApps;
 window.toggleMenu = () => document.getElementById("menu").classList.toggle("active");
+
+
+// Header hide/show on scroll (shutter effect)
+let lastScrollY = window.scrollY;
+const mainHeader = document.getElementById('mainHeader');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > lastScrollY && window.scrollY > 100) { // Scrolling down and past a threshold
+        mainHeader.classList.add('header-hidden');
+    } else if (window.scrollY < lastScrollY) { // Scrolling up
+        mainHeader.classList.remove('header-hidden');
+    }
+    lastScrollY = window.scrollY;
+});
+
 </script>
 
 </body>
-</html>
+ </html>
