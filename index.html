@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>MR » Mods </title>
+  <meta name="6a97888e-site-verification" content="40631f76a98611acfb816ae391a8bcaa">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
+  
+  :root {
+      --bg: #121212;
+      --card: #1e1e1e;
+      --accent: #00b894; /* Green accent for active elements */
+      --secondary: #6c5ce7; /* Purple for secondary accents */
+      --muted: #a0a0a0;
+      --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      --radius: 12px;
+  }
+
+  * {box-sizing:border-box;margin:0;padding:0;}
+  body {
+      font-family:'Inter', 'Noto Sans Bengali', sans-serif;
+      background:var(--bg);
+      color:#eee;
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+      overflow-x:hidden;
+      transition: background 0.5s;
+      padding-bottom: 70px; /* Increased padding to prevent footer overlap */
+  }
+  
+  header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px;
+      background:#1f1f1f;
+      position:sticky;
+      top:0;
+      z-index:50;
+      box-shadow:0 2px 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease-in-out; /* Added transition for header hide/show */
+  }
+
+  header.header-hidden {
+      transform: translateY(-100%);
+  }
+
+  .logoTitle {
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:#00e676;
+      font-size:18px;
+      font-weight:600;
+      text-decoration:none;
+      transition: color 0.3s;
+  }
+  .logoTitle:hover {color:#76ff03;}
+  
+  /* MR Prompt style Logo */
+  .logo {
+      width: 50px; /* Adjusted size for the new logo style */
+      height: 50px;
+      border-radius: 50%; /* Make it perfectly circular */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      animation: pulse 2s infinite ease-in-out; /* Animation */
+      border: 3px solid var(--accent); /* Border with accent color */
+  }
+  .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+  }
+  @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.4); } /* initial state */
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 184, 148, 0); } /* expanded state */
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 184, 148, 0); } /* back to normal */
+  }
+
+  .searchBox {flex:1;position:relative;}
+  .searchBox input {width:100%;padding:8px 12px;border-radius:20px;border:none;outline:none;background:#2c2c2c;color:#fff;font-size:14px;transition: box-shadow 0.3s;}
+  .searchBox input:focus {box-shadow:0 0 10px #00e676;}
+  
+  .suggestions {position:absolute;top:100%;left:0;right:0;background:#1e1e1e;border-radius:0 0 10px 10px;max-height:200px;overflow-y:auto;display:none;z-index:15;transition: all 0.3s;}
+  .suggestions div {padding:8px 12px;cursor:pointer;color:#eee;transition: background 0.3s;}
+  .suggestions div:hover {background:#333;}
+  
+  .menuBtn {font-size:22px;cursor:pointer;background:none;border:none;color:#fff;transition: color 0.3s;}
+  .menuBtn:hover {color:#00e676;}
+
+  /* Menu */
+  .menu {position:fixed;top:0;right:-240px;width:240px;height:100%;background:#222;box-shadow:-2px 0 6px rgba(0,0,0,0.5);padding:20px;transition:.3s;z-index:20;display:flex;flex-direction:column;}
+  .menu.active {right:0;}
+  .menu .closeBtn {align-self:flex-end;font-size:22px;cursor:pointer;background:none;border:none;color:#fff;margin-bottom:20px;}
+  .menu a {display:block;padding:12px 0;color:#eee;text-decoration:none;font-size:16px;border-bottom:1px solid #333;transition: color 0.3s;}
+  .menu a:hover {color:#00e676;}
+
+  /* Marquee */
+ .marquee { 
+  background:var(--card); 
+  color:#fff; 
+  font-size:15px; 
+  font-weight:700; 
+  padding:8px 12px; 
+  overflow:hidden; 
+  border-radius:8px; 
+  box-shadow:0 4px 8px rgba(0,0,0,0.3); 
+  text-align:center; 
+  margin:10px; 
+  position:relative; 
+}
+
+.marquee .marquee-inner { 
+  display:inline-block; 
+  white-space:nowrap; 
+  animation: scrollText 25s linear infinite; 
+}
+
+.marquee .marquee-inner span { 
+  display:inline-block; 
+  margin-right:100px; 
+  text-shadow:1px 1px 3px rgba(0,0,0,0.5); 
+}
+
+/* Keyframes marquee */
+@keyframes scrollText {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+  /* Slider */
+  .slider {position:relative;width:100%;overflow:hidden;margin-top:10px;border-radius:12px;}
+  .slider img {width:100%;display:none;border-radius:12px;object-fit:cover;cursor:pointer;transition: opacity 1s ease;}
+  .slider img.active {display:block;opacity:1;}
+
+  #appList {flex:1;padding:10px;display:flex;flex-direction:column;gap:10px;transition: all 0.3s ease;}
+  .appCard {display:flex;align-items:center;background:#1e1e1e;border-radius:12px;padding:12px;box-shadow:0 2px 6px rgba(0,0,0,0.6);width:100%;opacity:0;transform: translateY(20px);transition: all 0.5s ease;}
+  .appCard.show {opacity:1;transform: translateY(0);}
+  .appCard img {width:60px;height:60px;border-radius:14px;margin-right:12px;flex-shrink:0;transition: transform 0.3s;}
+  .appCard img:hover {transform: scale(1.1);}
+  .appCard h4 {flex:1;margin:0;font-size:16px;color:#fff;word-break:break-word;}
+  .appCard button {padding:8px 16px;border:none;background:#00c853;color:#fff;border-radius:20px;cursor:pointer;font-size:14px;transition:.3s, transform 0.2s;white-space:nowrap;margin-left:6px;}
+  .appCard button:hover {background:#00e676;transform: scale(1.05);}
+
+  #backBtn {margin:10px auto;padding:6px 14px;border:none;border-radius:20px;background:#ff6f00;color:#fff;cursor:pointer;display:none;transition: all 0.3s;}
+  #backBtn:hover {background:#ff8f00;}
+
+  /* Footer */
+  footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #111;
+      padding: 14px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.7);
+      z-index: 999;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+  }
+
+  .footer-icon {
+      color: var(--accent); /* Using accent color for consistency */
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 20px;
+      transition: transform 0.3s, color 0.3s;
+  }
+
+  .footer-icon:hover {
+      transform: scale(1.2);
+      color: var(--secondary); /* Secondary accent on hover */
+  }
+
+</style>
+  <script type='text/javascript' src='//pl27826264.effectivegatecpm.com/1a/91/83/1a918398f2501ec4856526bbb3e38627.js'></script>
+</head>
+<body>
+
+<header id="mainHeader">
+  <a href="index.html" class="logoTitle">
+    <div class="logo">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjlv9NqWC5ii0tX6BxjMADfR8vnPj3o8R9CiZRy083PPtfRoVI9hQXEEq58Ah96SVC7dQRYnbVFpuTmLwjISMH9Qthrk2WQKgRcQBopzApK3trtW3sGGZbK3zRRLGo8o5EbDD2vmEFB5qgI0KbEwgEftbylFJYYHEwLz62sRqh1rrBQnpuqFb6gEtSEGqUj/s16000/IMG_20250916_195755.jpg">
+    </div>
+  </a>
+  <div class="searchBox">
+    <input type="text" id="searchInput" placeholder="Search apps...">
+    <div id="suggestions" class="suggestions"></div>
+  </div>
+  <button class="menuBtn" onclick="toggleMenu()">☰</button>
+</header>
+
+<div class="menu" id="menu">
+  <button class="closeBtn" onclick="toggleMenu()">❌</button>
+  <a href="index.html">Home</a>
+  <a href="https://t.me/addlist/o5z2SLM0osw1OTll">Telegram</a>  
+  <a href="https://rakibbapry1000200.github.io/OnFlix/index.html">Watch OnFlix</a>
+</div>
+
+<div class="marquee">
+  <div class="marquee-inner">
+    <span>👋 Welcome to MR » Mods – Download all premium apps free! ☎️Contact for any paid promotion Whatsapp: 01776781995</span>
+    <span>👋 Welcome to MR » Mods – Download all premium apps free! ☎️Contact for any paid promotion Whatsapp: 01776781995</span>
+  </div>
+</div>
+<div class="slider">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhA17lStcEoSKuq0FRAnypsAOEU4-3imrCjYIN2JKHfv9sf4Ynxs1SNUzSYqFyb-tjQUavwpxbeffU3AHgdZZPS5YLiDycVVRAHPC3s0mQC2edo6GmEBCWBsY_6a9bB3Pm3AEVvNNLzSPcuaQ8OKaIw234BfcX9UdLCp8fXkAHgk7INAKGbxsgmDMBwxzeP/s3264/S1.jpg" class="active">
+</div>
+
+<button id="backBtn" onclick="goBack()"> Back to Home</button>
+
+<div id="appList"></div>
+
+<footer>
+    <a href="index.html" class="footer-icon" style="display:flex; flex-direction:column; align-items:center; text-decoration:none; color:#fff;">
+    <img src="https://images.vexels.com/media/users/3/136189/isolated/svg/8aff3574eabda894d8f7484bf8e81a6e.svg" alt="Home" style="width:22px; height:22px;">
+    <span style="font-size:12px; margin-top:3px;">Home</span>
+</a>
+
+
+    <a href="index.html" class="footer-icon" style="display:flex; flex-direction:column; align-items:center; text-decoration:none; color:#fff;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" alt="Home" style="width:22px; height:22px;">
+    <span style="font-size:12px; margin-top:3px;">Telegram</span>
+</a>
+    
+    <a href="index.html" class="footer-icon" style="display:flex; flex-direction:column; align-items:center; text-decoration:none; color:#fff;">
+    <img src="https://static.vecteezy.com/system/resources/previews/037/297/478/non_2x/video-icon-3d-render-free-png.png" alt="Home" style="width:22px; height:22px;">
+    <span style="font-size:12px; margin-top:3px;">OnFlix</span>
+</a>    
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCNP0GL4e20bm-grS6jHnL0b3d2rpAFszo",
+  authDomain: "mood-s-apk.firebaseapp.com",
+  projectId: "mood-s-apk",
+  storageBucket: "mood-s-apk.appspot.com",
+  messagingSenderId: "677810239788",
+  appId: "1:677810239788:web:d156ad0c565a0f673cd489"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let allApps = [];
+let currentApps = [];
+
+async function loadApps() {
+  const appsRef = collection(db, "apps");
+  const appsSnap = await getDocs(query(appsRef, orderBy('createdAt', 'desc')));
+  allApps = appsSnap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const appName = urlParams.get("app");
+  if(appName){
+    const found = allApps.find(app => app.name === appName);
+    currentApps = found ? [found] : allApps;
+  } else {
+    currentApps = allApps;
+  }
+  renderAppList(currentApps);
+}
+
+function renderAppList(list){
+  const appList = document.getElementById("appList");
+  appList.innerHTML = "";
+  // back button logic
+  document.getElementById("backBtn").style.display = (list.length === 1 && allApps.length > 1) ? "block" : "none";
+  list.forEach(app => {
+    let div = document.createElement("div");
+    div.className = "appCard";
+    const shareLink = window.location.origin + window.location.pathname + "?app=" + encodeURIComponent(app.name);
+    div.innerHTML = `
+      <img src="${app.logo}">
+      <h4>${app.name}</h4>
+      <button onclick="handleButtonClick(this,'${app.adLink}','${app.download}')">Get Link</button>
+      <button onclick="copyShareLink('${shareLink}')">Share</button>
+    `;
+    appList.appendChild(div);
+    setTimeout(()=>div.classList.add("show"), 50);
+  });
+}
+
+window.handleButtonClick = (btn, adLink, download) => {
+  if(btn.dataset.state === "download") {
+    window.location.href = download;
+  } else {
+    btn.disabled = true;
+    window.open(adLink, "_blank");
+    setTimeout(()=>{
+      btn.textContent = "Download";
+      btn.dataset.state = "download";
+      btn.disabled = false;
+    }, 2000);
+  }
+};
+
+window.copyShareLink = (link) => {
+  navigator.clipboard.writeText(link).then(()=>{
+    showCopyNotification("Link copied successfully!");
+  });
+};
+
+function showCopyNotification(message) {
+  let existing = document.getElementById("copyNotif");
+  if(existing) existing.remove();
+
+  const notif = document.createElement("div");
+  notif.id = "copyNotif";
+  notif.textContent = message;
+  notif.style.position = "fixed";
+  notif.style.bottom = "30px";
+  notif.style.left = "50%";
+  notif.style.transform = "translateX(-50%)";
+  notif.style.background = "#00e676";
+  notif.style.color = "#000";
+  notif.style.padding = "12px 20px";
+  notif.style.borderRadius = "25px";
+  notif.style.boxShadow = "0 4px 10px rgba(0,0,0,0.3)";
+  notif.style.fontWeight = "600";
+  notif.style.fontSize = "14px";
+  notif.style.opacity = "0";
+  notif.style.zIndex = "1000";
+  notif.style.transition = "opacity 0.5s, bottom 0.5s";
+
+  document.body.appendChild(notif);
+
+  setTimeout(()=>{
+    notif.style.opacity = "1";
+    notif.style.bottom = "50px";
+  }, 50);
+
+  setTimeout(()=>{
+    notif.style.opacity = "0";
+    notif.style.bottom = "30px";
+    setTimeout(()=>notif.remove(), 500);
+  }, 2000);
+}
+
+const searchInput = document.getElementById("searchInput");
+const suggestionsBox = document.getElementById("suggestions");
+
+searchInput.addEventListener("input", ()=>{
+  const query = searchInput.value.toLowerCase();
+  suggestionsBox.innerHTML = "";
+  if(!query){ suggestionsBox.style.display="none"; 
+    currentApps = allApps; // Show all apps if search is cleared
+    renderAppList(currentApps);
+    return; 
+  }
+  const results = allApps.filter(app => app.name.toLowerCase().includes(query));
+  if(results.length>0){
+    results.forEach(app=>{
+      const div = document.createElement("div");
+      div.textContent = app.name;
+      div.onclick = ()=>{
+        currentApps = [app];
+        renderAppList(currentApps);
+        suggestionsBox.style.display="none";
+        searchInput.value = app.name;
+      };
+      suggestionsBox.appendChild(div);
+    });
+    suggestionsBox.style.display="block";
+  } else { suggestionsBox.style.display="none"; }
+});
+
+window.goBack = () => {
+  currentApps = allApps;
+  renderAppList(currentApps);
+  searchInput.value = "";
+  suggestionsBox.style.display="none";
+};
+
+// Slider auto-play
+let index = 0;
+const slides = document.querySelectorAll(".slider img");
+if (slides.length > 0) {
+  setInterval(()=>{
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  },4000);
+}
+
+window.onload = loadApps;
+window.toggleMenu = () => document.getElementById("menu").classList.toggle("active");
+
+
+// Header hide/show on scroll (shutter effect)
+let lastScrollY = window.scrollY;
+const mainHeader = document.getElementById('mainHeader');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > lastScrollY && window.scrollY > 100) { // Scrolling down and past a threshold
+        mainHeader.classList.add('header-hidden');
+    } else if (window.scrollY < lastScrollY) { // Scrolling up
+        mainHeader.classList.remove('header-hidden');
+    }
+    lastScrollY = window.scrollY;
+});
+
+</script>
+<script type='text/javascript' src='//pl27839228.effectivegatecpm.com/76/73/9b/76739b36ed6d9c5c41b26e1c1304bcf8.js'></script>
+</body>
+ </html>
